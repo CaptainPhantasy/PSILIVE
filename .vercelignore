@@ -1,0 +1,16 @@
+.env
+.env.*
+*.env
+.env.neon
+.env.production
+.env.replit-backup
+node_modules
+.next
+.git
+.omp
+.pi
+.claude
+.floyd
+
+# Standardize on yarn for Vercel builds (avoids yarn/npm lockfile mix warning)
+package-lock.json

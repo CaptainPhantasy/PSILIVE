@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Precision Sewer Inspections — Sanitary Lateral Camera Survey Report</title>
+<!--
+  IMAGE ASSETS — drop these files in the same folder as this HTML:
+    psi-logo.png              (Precision Sewer Inspections circular badge logo)
+    badge-bbb.png             (BBB Accredited Business — VERIFIED 2026-07-30:
+                               accredited, rating A-, bbb.org profile 0382-90068319)
+  The InterNACHI badge image was removed 2026-07-30: it claimed "Certified",
+  which is not a real InterNACHI designation. Text-only member block instead.
+-->
+<style>
+  @page { size: Letter; margin: 0.55in 0.6in; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    color: #1a2733;
+    margin: 0;
+    background: #fff;
+    font-size: 10.5pt;
+    line-height: 1.45;
+  }
+  .page { padding-bottom: 18pt; page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+
+  /* Masthead */
+  .masthead {
+    background: linear-gradient(135deg, #1f3a52 0%, #2a4d6b 100%);
+    color: #fff;
+    padding: 18pt 22pt 14pt 22pt;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .masthead .brand { display: flex; align-items: center; gap: 14pt; }
+  .logo-circle {
+    width: 72pt; height: 72pt; border-radius: 50%;
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    border: 2pt solid #fff;
+    overflow: hidden;
+  }
+  .logo-circle img { width: 100%; height: 100%; object-fit: contain; }
+  .masthead h1 {
+    margin: 0; font-size: 22pt; font-weight: normal; letter-spacing: 0.4pt;
+  }
+  .masthead h1 em { font-style: italic; color: #f4a261; font-weight: normal; }
+  .masthead .subtitle {
+    font-family: Arial, sans-serif;
+    font-size: 7.5pt; letter-spacing: 2.5pt; color: #c8d4e0;
+    margin-top: 3pt;
+  }
+  .masthead .report-id { text-align: right; }
+  .masthead .report-id .label {
+    font-family: Arial, sans-serif; font-size: 7.5pt;
+    letter-spacing: 2.5pt; color: #c8d4e0;
+  }
+  .masthead .report-id .num { font-size: 14pt; margin-top: 3pt; }
+  .masthead .report-id .issued {
+    font-family: Arial, sans-serif; font-size: 7.5pt;
+    color: #c8d4e0; margin-top: 4pt;
+  }
+  .accent-bar {
+    height: 3pt;
+    background: linear-gradient(to right, #f4a261 0%, #f4a261 35%, #1f3a52 35%, #1f3a52 100%);
+  }
+  .contact-bar {
+    background: #15293c; color: #fff;
+    padding: 8pt 22pt;
+    font-family: Arial, sans-serif;
+    font-size: 8.5pt; letter-spacing: 0.5pt;
+  }
+  .contact-bar .dot { margin: 0 12pt; color: #8aa4be; }
+
+  /* Section labels */
+  .section-label {
+    font-family: Arial, sans-serif;
+    color: #d97a3c;
+    font-size: 7.5pt;
+    letter-spacing: 2.5pt;
+    margin: 18pt 0 0 0;
+    padding: 0 22pt;
+  }
+  .section-title-row { padding: 0 22pt; margin: 4pt 0 10pt 0; }
+  .section-title-row .rule {
+    border: none; border-top: 2pt solid #d97a3c;
+    width: 38pt; margin: 0 0 6pt 0;
+  }
+  .section-title-row h2 { margin: 0; font-size: 17pt; font-weight: bold; }
+  .section-title-row h2 em { font-style: italic; color: #1a2733; }
+
+  /* Property grid */
+  .prop-grid {
+    padding: 0 22pt;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 14pt 22pt;
+  }
+  .prop-grid .label {
+    font-family: Arial, sans-serif;
+    color: #d97a3c;
+    font-size: 7pt;
+    letter-spacing: 2pt;
+    margin-bottom: 3pt;
+  }
+  .prop-grid .value { font-weight: bold; font-size: 10pt; min-height: 14pt; }
+  .prop-rule { border: none; border-top: 1pt solid #d0d8e0; margin: 12pt 22pt 0 22pt; }
+
+  /* Callout */
+  .callout {
+    margin: 0 22pt;
+    border-left: 3pt solid #1f3a52;
+    background: #eef3f8;
+    padding: 12pt 14pt;
+    font-size: 10pt;
+  }
+  .callout p { margin: 0 0 8pt 0; }
+  .callout p:last-child { margin-bottom: 0; }
+
+  .content { padding: 0 22pt; }
+  .content p { margin: 6pt 0; }
+
+  /* Findings table */
+  table.findings-table {
+    width: calc(100% - 44pt);
+    margin: 0 22pt;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+  }
+  table.findings-table th {
+    text-align: left;
+    font-family: Arial, sans-serif;
+    color: #d97a3c;
+    font-size: 7pt; letter-spacing: 2pt;
+    padding: 6pt 8pt;
+    border-bottom: 1pt solid #d0d8e0;
+  }
+  table.findings-table td {
+    padding: 8pt; border-bottom: 1pt solid #e8edf2;
+    vertical-align: top; min-height: 16pt;
+  }
+  .table-caption {
+    padding: 0 22pt;
+    font-size: 8.5pt; font-style: italic; color: #6b7e91;
+    margin-top: 6pt;
+  }
+
+  /* Finding cards */
+  .finding {
+    margin: 10pt 22pt;
+    border: 1pt solid #d0d8e0;
+    border-radius: 4pt;
+    padding: 12pt 14pt;
+    page-break-inside: avoid;
+  }
+  .finding-header {
+    display: flex; justify-content: space-between;
+    align-items: center; gap: 10pt;
+  }
+  .finding-title { font-weight: bold; font-size: 11.5pt; }
+  .finding-title .descriptor {
+    font-family: Arial, sans-serif;
+    color: #6b7e91; font-size: 7.5pt;
+    letter-spacing: 2pt; margin-left: 6pt;
+    font-weight: normal;
+  }
+  .badge {
+    font-family: Arial, sans-serif;
+    font-size: 7.5pt; letter-spacing: 1.5pt;
+    padding: 3pt 9pt; border-radius: 2pt;
+    color: #fff; background: #d97a3c;
+    white-space: nowrap;
+  }
+  .badge.not-observed { background: #6b7e91; }
+  .meta-row { font-size: 9pt; color: #2c3e50; margin: 6pt 0 6pt 0; }
+  .meta-row .meta-label {
+    font-family: Arial, sans-serif;
+    color: #d97a3c; font-size: 7pt;
+    letter-spacing: 1.5pt; margin-right: 4pt;
+  }
+  .meta-row .meta-sep { display: inline-block; width: 14pt; }
+
+  /* Video still */
+  .video-still {
+    margin: 8pt 0 4pt 0;
+    background: #eef3f8;
+    border: 1pt solid #d0d8e0;
+    border-radius: 3pt;
+    padding: 10pt;
+    text-align: center;
+  }
+  .video-still .placeholder {
+    background: #15293c; color: #c8d4e0;
+    width: 70%; margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    display: flex; align-items: center; justify-content: center;
+    font-family: Arial, sans-serif; font-size: 8.5pt; letter-spacing: 1.5pt;
+    border-radius: 2pt;
+  }
+  .video-still .caption {
+    margin-top: 6pt;
+    font-style: italic; font-size: 8.5pt; color: #4a5d70;
+  }
+
+  /* Verification */
+  .verif-grid {
+    padding: 0 22pt;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 18pt;
+  }
+  .verif-table { width: 100%; border-collapse: collapse; font-size: 9.5pt; }
+  .verif-table td {
+    padding: 7pt 6pt;
+    border-bottom: 1pt solid #e8edf2;
+    vertical-align: top;
+  }
+  .verif-table td.label {
+    font-family: Arial, sans-serif;
+    color: #d97a3c; font-size: 7pt;
+    letter-spacing: 2pt; width: 45%;
+  }
+  .verif-table td.value { font-weight: bold; }
+  .verif-table td.value.completed { color: #2e7d32; }
+  .badges-stack { display: flex; flex-direction: column; gap: 10pt; }
+  .badge-card {
+    border: 1pt solid #d0d8e0;
+    border-radius: 4pt;
+    padding: 12pt; text-align: center;
+    background: #f7f9fc;
+  }
+  .badge-card img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  .badge-card .badge-internachi-img { max-height: 60pt; }
+  .badge-card .badge-bbb-img { max-height: 80pt; }
+  .badge-card .badge-caption {
+    font-family: Arial, sans-serif;
+    color: #6b7e91; font-size: 7pt;
+    letter-spacing: 2pt; margin-top: 8pt;
+  }
+
+  /* Thank you */
+  .thank-you {
+    margin: 12pt 22pt 0 22pt;
+    background: #eef3f8;
+    border-radius: 3pt;
+    padding: 12pt 14pt;
+    font-size: 10pt;
+  }
+  .thank-you h3 { margin: 0 0 6pt 0; font-size: 11pt; }
+  .thank-you p { margin: 0 0 6pt 0; }
+  .thank-you .signoff { font-style: italic; }
+
+  /* Footage */
+  .footage-block {
+    margin: 0 22pt;
+    background: linear-gradient(135deg, #1f3a52 0%, #2a4d6b 100%);
+    color: #fff;
+    border-radius: 4pt;
+    padding: 16pt 18pt;
+  }
+  .footage-block .label {
+    font-family: Arial, sans-serif;
+    color: #f4a261; font-size: 7.5pt;
+    letter-spacing: 2.5pt;
+  }
+  .footage-block h2 {
+    margin: 4pt 0 8pt 0; font-size: 17pt; color: #fff;
+  }
+  .footage-block p { margin: 0 0 10pt 0; font-size: 9.5pt; color: #d6e0eb; }
+  .video-card {
+    margin-top: 10pt;
+    background: #15293c; border-radius: 3pt;
+    padding: 0; overflow: hidden; position: relative;
+    aspect-ratio: 16 / 9;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .video-card .play-btn {
+    width: 44pt; height: 44pt; border-radius: 50%;
+    background: #f4a261; display: flex;
+    align-items: center; justify-content: center;
+    color: #fff; font-size: 18pt;
+  }
+  .video-card .video-meta {
+    position: absolute; bottom: 8pt; left: 12pt; right: 12pt;
+    display: flex; justify-content: space-between;
+    color: #fff; font-size: 9pt;
+    font-family: Georgia, serif;
+  }
+  .video-card .video-meta .right {
+    font-family: Arial, sans-serif;
+    font-size: 7.5pt; letter-spacing: 1.5pt; color: #c8d4e0;
+  }
+  .open-link {
+    margin-top: 12pt;
+    background: rgba(255,255,255,0.08);
+    color: #fff; padding: 8pt 14pt;
+    border-radius: 3pt; display: inline-block;
+    font-family: Arial, sans-serif; font-size: 9pt;
+  }
+  .video-url-line {
+    margin-top: 10pt;
+    font-family: Arial, sans-serif;
+    font-size: 7.5pt; color: #8aa4be;
+    word-break: break-all;
+    border-top: 1pt solid rgba(255,255,255,0.1);
+    padding-top: 8pt;
+  }
+
+  /* Footer */
+  .footer-brand {
+    margin: 18pt 22pt 0 22pt;
+    background: #15293c; color: #fff;
+    padding: 12pt; text-align: center;
+    border-radius: 3pt;
+  }
+  .footer-brand .name { font-size: 13pt; font-weight: bold; }
+  .footer-brand .name em { font-style: italic; color: #f4a261; }
+  .footer-brand .tag {
+    font-family: Arial, sans-serif;
+    font-size: 8pt; color: #c8d4e0;
+    letter-spacing: 1pt; margin-top: 4pt;
+  }
+  .disclaimer {
+    margin: 10pt 22pt 0 22pt;
+    background: #f7f9fc;
+    border-top: 1pt solid #d0d8e0;
+    padding: 10pt 12pt;
+    font-size: 8pt; color: #4a5d70;
+    line-height: 1.5;
+  }
+  .disclaimer strong { color: #1a2733; }
+</style>
+</head>
+<body>
+
+<!-- ============== PAGE 1 ============== -->
+<div class="page">
+
+  <div class="masthead">
+    <div class="brand">
+      <div class="logo-circle">
+        <img src="psi-logo.png" alt="Precision Sewer Inspections logo">
+      </div>
+      <div>
+        <h1>Precision <em>Sewer</em> Inspection</h1>
+        <div class="subtitle">SANITARY LATERAL CAMERA SURVEY</div>
+      </div>
+    </div>
+    <div class="report-id">
+      <div class="label">REPORT</div>
+      <div class="num">&nbsp;</div>
+      <div class="issued">Issued&nbsp;</div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <div class="contact-bar">
+    (317) 620-3858 <span class="dot">·</span> Ryan@PrecisionSewerInspections.com <span class="dot">·</span> www.precisionsewerinspections.com
+  </div>
+
+  <div class="section-label">PROPERTY &amp; CLIENT</div>
+  <div class="prop-grid">
+    <div>
+      <div class="label">PROPERTY</div>
+      <div class="value">&nbsp;<br>&nbsp;</div>
+    </div>
+    <div>
+      <div class="label">NEIGHBORHOOD</div>
+      <div class="value">&nbsp;</div>
+    </div>
+    <div>
+      <div class="label">INSPECTION DATE</div>
+      <div class="value">&nbsp;</div>
+    </div>
+    <div>
+      <div class="label">INSPECTOR</div>
+      <div class="value">Ryan Galbraith,<br>Lead Inspector</div>
+    </div>
+    <div>
+      <div class="label">CLIENT</div>
+      <div class="value">&nbsp;</div>
+    </div>
+    <div>
+      <div class="label">CLIENT EMAIL</div>
+      <div class="value">&nbsp;</div>
+    </div>
+    <div>
+      <div class="label">CLIENT PHONE</div>
+      <div class="value">&nbsp;</div>
+    </div>
+    <div>
+      <div class="label">EQUIPMENT</div>
+      <div class="value">Pushrod camera;<br>on-screen counter<br>&amp; date-time overlay</div>
+    </div>
+  </div>
+  <hr class="prop-rule">
+
+  <div class="section-label">HOW TO READ THIS REPORT</div>
+  <div class="section-title-row">
+    <hr class="rule">
+    <h2>What follows, and what it isn't</h2>
+  </div>
+
+  <div class="callout">
+    <p>Precision Sewer Inspections documents the visible, accessible conditions and inspection limitations. PSI and Indiana Drain Company are sister companies under shared ownership. If you request next-step guidance, optional services may be quoted separately through IDC within its scope and service area. Cleaning needed to complete an inspection is explained, priced, and authorized separately. You may use any provider; additional service purchases do not determine the findings in this report.</p>
+    <p>Findings below use two simple labels. <strong>Observed</strong> means the condition was visible during the inspection. <strong>Not Observed</strong> means it was not visible within the section of pipe the camera reached. <strong>Note</strong> flags supplemental context, equipment-related caveats, or measurements.</p>
+    <p>This report documents findings rather than a service proposal. If the customer asks for next-step guidance, it is discussed separately, with a distinct scope and quote for any additional work.</p>
+  </div>
+
+  <div class="section-label">INSPECTION OVERVIEW</div>
+  <div class="section-title-row">
+    <hr class="rule">
+    <h2>Total line scoped &amp; pipe segmentation</h2>
+  </div>
+  <div class="content">
+    <p>&nbsp;</p>
+  </div>
+
+</div>
+
+<!-- ============== PAGE 2 ============== -->
+<div class="page">
+
+  <table class="findings-table">
+    <thead>
+      <tr><th style="width: 38%;">RANGE</th><th>MATERIAL OBSERVED</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </tbody>
+  </table>
+  <div class="table-caption">Material identification is by visual observation through the camera. No laboratory or destructive material testing was performed.</div>
+
+  <div class="section-label">INSPECTION METHOD</div>
+  <div class="section-title-row">
+    <hr class="rule">
+    <h2>Access &amp; equipment</h2>
+  </div>
+
+  <div class="section-label" style="margin-top:10pt;">MATERIAL CONTEXT</div>
+  <div class="section-title-row">
+    <hr class="rule">
+    <h2>General construction-era context <em>(not a defect statement)</em></h2>
+  </div>
+  <div class="content">
+    <p>Cast iron was the prevailing material for residential laterals in Indianapolis through the mid-twentieth century. Cast-iron lateral pipe has a typical service life of approximately 50 to 75 years, after which interior corrosion — pitting, scaling, and tuberculation — is commonly observed. Central Indiana soils are clay-heavy and undergo seasonal expansion and contraction; over time, this soil movement can contribute to joint separation, belly formation, and stress at fittings.</p>
+    <p>The findings that follow should be read against that backdrop. None of this context, on its own, is a defect statement; it is included so this report can be interpreted in the same frame of reference the engineering team used when reviewing the footage.</p>
+  </div>
+
+  <div class="finding" style="margin-top:14pt;">
+    <div class="finding-header">
+      <div class="finding-title">Access Point <span class="descriptor">&nbsp;</span></div>
+    </div>
+    <p style="font-size:9.5pt; color:#2c3e50;">&nbsp;</p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-header">
+      <div class="finding-title">Camera &amp; Footage</div>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">CAMERA</span> Pushrod video
+      <span class="meta-sep"></span>
+      <span class="meta-label">OVERLAY</span> Distance counter + date-time
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">RUN PROFILE</span> &nbsp;
+    </div>
+  </div>
+
+  <div class="section-label">DETAILED FINDINGS</div>
+  <div class="section-title-row">
+    <hr class="rule">
+    <h2>What the camera saw, in order</h2>
+  </div>
+  <div class="content">
+    <p style="font-style: italic; color: #2c3e50;">&nbsp;</p>
+  </div>
+
+</div>
+
+<!-- ============== PAGE 3 ============== -->
+<div class="page">
+
+  <div class="finding">
+    <div class="finding-header">
+      <div class="finding-title">Pipe Material &amp; Wall Condition <span class="descriptor">&nbsp;</span></div>
+      <div class="badge">OBSERVED</div>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">RANGE</span> &nbsp;
+      <span class="meta-sep"></span>
+      <span class="meta-label">MATERIAL</span> &nbsp;
+    </div>
+    <p>&nbsp;</p>
+    <div class="video-still">
+      <div class="placeholder">VIDEO STILL</div>
+      <div class="caption">Video still — &nbsp; · counter [&nbsp;] · &nbsp;</div>
+    </div>
+  </div>
+
+  <div class="finding">
+    <div class="finding-header">
+      <div class="finding-title">Material Transition <span class="descriptor">&nbsp;</span></div>
+      <div class="badge">OBSERVED</div>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">DISTANCE</span> &nbsp;
+    </div>
+    <p>&nbsp;</p>
+    <div class="video-still">
+      <div class="placeholder">VIDEO STILL</div>
+      <div class="caption">Video still — &nbsp; · counter [&nbsp;] · &nbsp;</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============== PAGE 4 ============== -->
+<div class="page">
+
+  <div class="finding">
+    <div class="finding-header">
+      <div class="finding-title">Pipe Belly</div>
+      <div class="badge">OBSERVED</div>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">RANGE</span> &nbsp;
+      <span class="meta-sep"></span>
+      <span class="meta-label">SECTION</span> &nbsp;
+    </div>
+    <p>&nbsp;</p>
+    <div class="video-still">
+      <div class="placeholder">VIDEO STILL</div>
+      <div class="caption">Video still — &nbsp; · counter [&nbsp;] · &nbsp;</div>
+    </div>
+  </div>
+
+  <div class="finding">
+    <div class="finding-header">
+      <div class="finding-title">Biofilm</div>
+      <div class="badge">OBSERVED</div>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">DISTANCE</span> &nbsp;
+    </div>
+    <p>&nbsp;</p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-header">
+      <div class="finding-title">Standing Fluid</div>
+      <div class="badge">OBSERVED</div>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">LOCATIONS</span> &nbsp;
+    </div>
+    <p>&nbsp;</p>
+  </div>
+
+</div>
+
+<!-- ============== PAGE 5 ============== -->
+<div class="page">
+
+  <div class="finding">
+    <div class="finding-header">
+      <div class="finding-title">Obstruction <span class="descriptor">&nbsp;</span></div>
+      <div class="badge">OBSERVED</div>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">BEGINS</span> &nbsp;
+      <span class="meta-sep"></span>
+      <span class="meta-label">CAMERA ADVANCED TO</span> &nbsp;
+    </div>
+    <p>&nbsp;</p>
+  </div>
+
+  <div class="finding">
+    <div class="finding-header">
+      <div class="finding-title">Branch Connections <span class="descriptor">YS, TS, OR TIE-INS</span></div>
+      <div class="badge not-observed">NOT OBSERVED</div>
+    </div>
+    <p>No branch connections, Y-fittings, or T-fittings were observed anywhere in the section of pipe the camera reached. Any opening, junction, or branch-like geometry visible in the captured footage is either a clay-pipe joint or offset, or biofilm on the pipe wall. For any future work on this lateral, the run between the access point and the terminal point reached contains no hidden branches.</p>
+  </div>
+
+  <div class="section-label">SURFACE LOCATE</div>
+  <div class="section-title-row">
+    <hr class="rule">
+    <h2>Sond reading &amp; municipal context</h2>
+  </div>
+  <div class="content">
+    <p>&nbsp;</p>
+    <p><strong>Municipal map context.</strong> Indianapolis publishes utility data through MapIndy (Indianapolis GIS). Citizens Energy Group is the sanitary-service utility for Marion County; Indianapolis DPW handles storm drainage. Indiana 811 should be contacted before any digging.</p>
+  </div>
+
+  <div class="section-label">LIMITATIONS &amp; EXCLUSIONS</div>
+  <div class="section-title-row">
+    <hr class="rule">
+    <h2>What this inspection does not cover</h2>
+  </div>
+  <div class="content" style="font-size:9.5pt;">
+    <p>&nbsp;</p>
+    <p>The end of the lateral run, including any connection to a municipal main or easement-side cleanout downstream of the terminal point reached, was not reached and was not inspected.</p>
+    <p>Pipe material was identified visually through the camera. No laboratory testing or destructive material verification was performed.</p>
+    <p>Slope and grade measurement was not available with the camera equipment used. Bellies are reported by visual evidence of standing fluid and grade variation, not by surveyed slope.</p>
+    <p>This inspection covers the visible and accessible portions of the lateral sewer line only. Branch lines not accessed by the camera, the municipal main, and any portion of the system not entered by the pushrod are outside the scope of this report.</p>
+  </div>
+
+</div>
+
+<!-- ============== PAGE 6 ============== -->
+<div class="page">
+
+  <div class="section-label">INSPECTION VERIFICATION</div>
+  <div class="section-title-row">
+    <hr class="rule">
+    <h2>Personnel, certification, &amp; report status</h2>
+  </div>
+
+  <div class="verif-grid">
+    <table class="verif-table">
+      <tr>
+        <td class="label">INSPECTION PERFORMED BY</td>
+        <td class="value">Ryan Galbraith, Lead Inspector</td>
+      </tr>
+      <tr>
+        <td class="label">INTERNACHI MEMBERSHIP ID</td>
+        <td class="value">NACHI26032508</td>
+      </tr>
+      <tr>
+        <td class="label">REPORT PREPARATION</td>
+        <td class="value">Precision Sewer Inspections</td>
+      </tr>
+      <tr>
+        <td class="label">INSPECTION DATE</td>
+        <td class="value">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label">REPORT GENERATED</td>
+        <td class="value">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="label">BETTER BUSINESS BUREAU</td>
+        <td class="value" style="color:#1f6fb5;">View BBB profile ›</td>
+      </tr>
+      <tr>
+        <td class="label">REPORT STATUS</td>
+        <td class="value completed">Completed</td>
+      </tr>
+    </table>
+
+    <div class="badges-stack">
+      <div class="badge-card">
+        <div class="badge-caption">INTERNACHI MEMBER</div>
+        <div class="badge-caption" style="font-weight:normal;text-transform:none;">Membership verifiable at nachi.org/verify</div>
+      </div>
+      <div class="badge-card">
+        <img class="badge-bbb-img" src="badge-bbb.png" alt="BBB Accredited Business">
+        <div class="badge-caption">BBB ACCREDITED</div>
+      </div>
+      <div class="badge-card">
+        <div class="badge-caption">FULLY INSURED</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="thank-you">
+    <h3>Thank you, &nbsp;.</h3>
+    <p>We genuinely appreciate you trusting Precision Sewer Inspections with the inspection at &nbsp;. Inviting someone onto the property to put a camera down a pipe is rarely the highlight of anyone's week, and we don't take it for granted. If you have questions about anything in this report or want to walk through what you're seeing in the video, reach out anytime.</p>
+    <p class="signoff">— <em>The Precision Sewer Inspections team</em></p>
+  </div>
+
+</div>
+
+<!-- ============== PAGE 7 ============== -->
+<div class="page">
+
+  <div class="footage-block">
+    <div class="label">INSPECTION FOOTAGE</div>
+    <h2>Watch the full survey</h2>
+    <p>Approximately &nbsp; of inspection footage is delivered with this report as a single streaming video. The pushrod camera's on-screen distance counter and date-time overlay are visible throughout. The link below opens the streaming version; the footage may also be shared with any plumbing professional reviewing the line.</p>
+
+    <div class="video-card">
+      <div class="play-btn">▶</div>
+      <div class="video-meta">
+        <div>&nbsp; — Sanitary Lateral Survey</div>
+        <div class="right">&nbsp; · HD · CLICK TO PLAY</div>
+      </div>
+    </div>
+
+    <div class="open-link">⬇ Open the streaming video</div>
+    <div class="video-url-line">&nbsp;</div>
+  </div>
+
+  <div class="footer-brand">
+    <div class="name">Precision <em>Sewer</em> Inspections</div>
+    <div class="tag">Clear · Accurate · Reliable &nbsp;&nbsp; Indianapolis, Indiana</div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>DISCLAIMER:</strong> This inspection report represents the condition of the visible and accessible portions of the sewer line at the time of inspection. PSI reports the inspection evidence; optional service through sister company Indiana Drain Company is separately quoted and authorized. This report is provided for informational purposes only. Hidden or concealed defects, portions of the line that were inaccessible, the section beyond the camera's point of obstruction, or conditions that develop after the inspection may not be reflected in this report.
+  </div>
+
+</div>
+
+</body>
+</html>

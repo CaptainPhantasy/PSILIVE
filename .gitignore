@@ -1,0 +1,80 @@
+# dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# next.js
+.next/
+out/
+
+# production
+build/
+dist/
+.sites-runtime/
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env
+.env.*
+.env*.local
+.env.vercel
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# prisma
+prisma/migrations/
+
+# agent governance working state
+.floyd/agent_log.jsonl
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Governance & agent working state (local only)
+FLOYD.md
+CLAUDE.md
+SSOT/
+Issues/
+.floyd/
+.pi/
+.pi-lens/
+.harness/
+.omp/
+.claude/
+VERCEL_HANDOFF.md
+PSI_FULL_ENVIRONMENT_ABACUS_EXPORT*
+llm_skeptic.py
+pebkac-starter/
+prisma/.pi-lens/
+scripts/check_users.ts
+scripts/send-backfill-admin-emails.ts
+# local quarantine/cleanup artifacts
+.quarantine/
+
+# internal working docs / handoff artifacts (do not publish)
+/handoff*/
+/CONTINUATION_BRIEF.md
+/next_items_to_address.md
+/MOTION_FIX_HANDOFF.md
+/*_audit_report.md
+/final_evidence_and_completeness.md
+/workflow_test_plans.md
+/css-refactor-diff.txt
+.env*

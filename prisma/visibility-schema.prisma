@@ -1,0 +1,303 @@
+// ============================================================================
+// BRAND VISIBILITY MODELS - Yext-equivalent for local SEO
+// Add this to your schema.prisma file
+// ============================================================================
+
+model ServiceArea {
+  id            String   @id @default(cuid())
+  name          String                    // "Indianapolis", "Carmel"
+  slug          String   @unique          // "indianapolis-in"
+  city          String
+  state         String   @default("IN")
+  zipCodes      String[]                  // ["46201", "46202"]
+  geoBounds     Json?                    // { north, south, east, west, center: {lat, lng} }
+  population    Int?
+  isActive      Boolean  @default(true)
+  priority      Int      @default(0)      // Higher = more important
+  description   String?  @db.Text        // Area-specific intro text
+  localKeywords String[] @default([])    // SEO keywords for this area
+  // Relationships
+  technicians   TechnicianServiceArea[]
+  services      ServiceAreaPricing[]
+  // Timestamps
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([isActive, priority])
+}
+
+model ServiceOffering {
+  id               String   @id @default(cuid())
+  name             String                    // "Standard Sewer Inspection"
+  slug             String   @unique          // "standard-sewer-inspection"
+  description      String   @db.Text
+  shortDescription String?                   // For cards, 1-2 sentences
+  basePrice        Float    @default(0)
+  priceUnit        String?                   // "per linear foot", "flat rate", "starting at"
+  features         String[]                  // ["Video inspection", "Digital report"]
+  avgDuration       Int                       // Estimated minutes
+  icon             String?                   // Icon name for UI
+  isActive         Boolean  @default(true)
+  isFeatured       Boolean  @default(false)
+  sortOrder        Int      @default(0)
+  // Relationships
+  areas            ServiceAreaPricing[]
+  // Timestamps
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([isActive, sortOrder])
+}
+
+model ServiceAreaPricing {
+  id                String   @id @default(cuid())
+  serviceAreaId     String
+  serviceId         String
+  localPrice        Float?                    // Override base price for this area
+  isAvailable       Boolean  @default(true)
+  estimatedWaitDays Int?                    // How soon they can book
+  // Relations
+  serviceArea       ServiceArea    @relation(fields: [serviceAreaId], references: [id], onDelete: Cascade)
+  service           ServiceOffering @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@unique([serviceAreaId, serviceId])
+}
+
+model TechnicianProfile {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  // Extended profile beyond User model
+  title            String?                   // "Lead Inspector", "Senior Technician"
+  yearsExperience  Int?
+  bio              String   @db.Text
+  shortBio         String?                   // For cards, 1-2 sentences
+  certifications   String[]
+  specializations  String[]
+  photoUrl         String?
+  photoAlt         String?                   // For SEO alt text
+  isPublic         Boolean  @default(true)
+  isFeatured       Boolean  @default(false)
+  sortOrder        Int      @default(0)
+  // Social/links
+  linkedInUrl      String?
+  // Relations
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  serviceAreas     TechnicianServiceArea[]
+  // Timestamps
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model TechnicianServiceArea {
+  id            String   @id @default(cuid())
+  technicianId  String
+  serviceAreaId String
+  isPrimary     Boolean  @default(false)      // Primary territory
+  // Relations
+  technician    TechnicianProfile @relation(fields: [technicianId], references: [id], onDelete: Cascade)
+  serviceArea   ServiceArea       @relation(fields: [serviceAreaId], references: [id], onDelete: Cascade)
+
+  @@unique([technicianId, serviceAreaId])
+}
+
+model FAQ {
+  id            String     @id @default(cuid())
+  question      String
+  answer        String     @db.Text
+  shortAnswer   String?                   // For accordions
+  category      FAQCategory @default(GENERAL)
+  serviceAreas  String[]                  // Applicable areas - empty = all areas
+  services      String[]                  // Applicable services - empty = all services
+  keywords      String[]                  // For voice search optimization
+  isPublished   Boolean    @default(false)
+  sortOrder     Int        @default(0)
+  viewCount     Int        @default(0)
+  // Timestamps
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@index([category, isPublished])
+}
+
+enum FAQCategory {
+  GENERAL
+  BOOKING
+  PRICING
+  TECHNICAL
+  PROCESS
+  AFTER_SERVICE
+}
+
+model AggregatedReview {
+  id              String     @id @default(cuid())
+  // Source info
+  source          ReviewSource
+  sourceReviewId  String                     // ID on the source platform
+  sourceUrl       String?
+  // Review content
+  rating          Int                        // 1-5
+  title           String?
+  content         String     @db.Text
+  authorName      String?
+  authorPhotoUrl  String?
+  // Metadata
+  inspectionId    String?                   // Link to PSI inspection if known
+  serviceAreaId   String?                   // Which area this review mentions
+  responseText    String?    @db.Text
+  responseAt      DateTime?
+  respondedBy     String?                    // User ID who responded
+  // Analytics
+  sentiment       SentimentScore?
+  sentimentScore  Float?                    // -1 to 1
+  themes          String[]   @default([])   // Detected themes: "fast-service", "professional"
+  // Status
+  needsResponse   Boolean    @default(false)
+  isResponded     Boolean    @default(false)
+  isHighlighted   Boolean    @default(false) // Feature on website
+  // Timestamps
+  reviewDate      DateTime
+  pulledAt        DateTime   @default(now())
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  @@unique([source, sourceReviewId])
+  @@index([source, isResponded])
+  @@index([needsResponse])
+}
+
+enum ReviewSource {
+  GOOGLE
+  YELP
+  HOUZZ
+  HOMEADVISOR
+  BBB
+  ANGIES_LIST
+  OTHER
+}
+
+enum SentimentScore {
+  POSITIVE
+  NEUTRAL
+  NEGATIVE
+}
+
+model ListingSync {
+  id                 String     @id @default(cuid())
+  source             String
+  sourceEntityId     String?
+  // Sync state
+  lastSyncedAt       DateTime
+  syncStatus         SyncStatus @default(PENDING)
+  syncError          String?    @db.Text
+  dataHash           String?                    // Hash of synced data to detect changes
+  // Source-specific
+  listingUrl         String?
+  verificationStatus String?
+  // Timestamps
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  @@unique([source, sourceEntityId])
+}
+
+enum SyncStatus {
+  PENDING
+  IN_PROGRESS
+  SYNCED
+  FAILED
+  NEEDS_ATTENTION
+}
+
+model CitationTracking {
+  id              String   @id @default(cuid())
+  // Query info
+  query           String
+  location        String?
+  // AI engine info
+  engine          AIEngine
+  engineResponse  Json?                    // Full response for analysis
+  // PSI presence
+  psiMentioned    Boolean  @default(false)
+  psiRank         Int?
+  citedContent    String[] @default([])    // Content cited from PSI
+  citedSources    String[] @default([])    // URLs mentioned
+  // Context
+  searchDate      DateTime @default(now())
+  serviceAreaId   String?
+  // Timestamps
+  createdAt       DateTime @default(now())
+
+  @@index([engine, psiMentioned])
+  @@index([query, searchDate])
+}
+
+enum AIEngine {
+  CHATGPT
+  GEMINI
+  PERPLEXITY
+  CLAUDE
+  BING_CHAT
+}
+
+model LocalRanking {
+  id              String   @id @default(cuid())
+  // What we tracked
+  keyword         String
+  location        String
+  // Results
+  engine          String                     // "google_maps", "google_organic", "bing"
+  rank            Int?
+  totalResults    Int?
+  psiInResults     Boolean  @default(false)
+  psiPosition      Int?
+  competitors     Json?                      // [{name, rank, hasLocalPack}]
+  // Metadata
+  trackedAt       DateTime @default(now())
+  serviceAreaId   String?
+  // Timestamps
+  createdAt       DateTime @default(now())
+
+  @@index([keyword, location, trackedAt])
+}
+
+model ReviewRequest {
+  id               String         @id @default(cuid())
+  inspectionId     String
+  contactId        String?
+  // Request tracking
+  channel          RequestChannel @default(EMAIL)
+  recipientEmail   String?
+  recipientPhone    String?
+  requestToken      String         @unique @default(cuid())
+  // Status
+  status           RequestStatus  @default(PENDING)
+  sentAt           DateTime?
+  deliveredAt      DateTime?
+  openedAt         DateTime?
+  clickedAt        DateTime?
+  reviewedAt       DateTime?
+  reviewSource     ReviewSource?
+  // Timestamps
+  createdAt        DateTime       @default(now())
+  expiresAt        DateTime
+
+  @@index([inspectionId])
+  @@index([status, createdAt])
+}
+
+enum RequestChannel {
+  EMAIL
+  SMS
+  WHATSAPP
+}
+
+enum RequestStatus {
+  PENDING
+  SENT
+  DELIVERED
+  OPENED
+  CLICKED
+  REVIEWED
+  EXPIRED
+  FAILED
+}
