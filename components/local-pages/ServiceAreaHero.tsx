@@ -56,7 +56,7 @@ export default function ServiceAreaHero({
               <T>Clear evidence for your next decision.</T>
             </p>
             
-            <p className="text-lg text-primary-300 mb-8 max-w-lg">
+            <p className="text-lg text-primary-200 mb-8 max-w-lg">
               {description || <><T>Expert sewer camera inspections serving</T> {cityName} <T>and surrounding communities. HD video reports with honest answers.</T></>}
             </p>
 
@@ -93,7 +93,7 @@ export default function ServiceAreaHero({
                     <div className="text-2xl font-bold text-white">
                       {badge.value}
                     </div>
-                    <div className="text-xs text-primary-300"><T>{badge?.label ?? ''}</T></div>
+                    <div className="text-xs text-primary-100"><T>{badge?.label ?? ''}</T></div>
                   </motion.div>
                 )
               })}

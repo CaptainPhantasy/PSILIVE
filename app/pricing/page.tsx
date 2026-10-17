@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/page-metadata'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import AIChat from '@/components/ai-chat'
@@ -66,17 +66,8 @@ const PRICING_CARDS = [
   }
 ]
 
-export const metadata: Metadata = {
-  title: 'Sewer Scope Cost Indianapolis | $159 Standard',
-  description: 'Sewer inspection pricing in Indianapolis. Standard rate $159. Multi-unit discounts, volume packages for investors. Transparent pricing, no hidden fees.',
-  openGraph: {
-    title: 'Sewer Scope Pricing | Indianapolis | Precision Sewer Inspections',
-    description: 'Transparent sewer inspection pricing. Standard rate $159. Volume packages available. No surprises.',
-  },
-  alternates: {
-    canonical: '/pricing',
-  },
-}
+export const metadata = pageMetadata("/pricing", "Sewer Camera Inspection Pricing in Indianapolis", "Review PSI's published sewer camera inspection pricing, standard access requirements and separately approved options. Confirm the scope before booking.")
+
 
 export default function PricingPage() {
   return (

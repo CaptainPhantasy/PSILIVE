@@ -1,3 +1,4 @@
+import { pageMetadata } from '@/lib/page-metadata'
 // ============================================================================
 // Dynamic Service Area Page
 // Generates individual pages for each service area
@@ -92,25 +93,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Service Area Not Found' };
   }
 
-  return {
-    title: `Sewer Inspection in ${area.name}, ${area.state} | Precision Sewer Inspections`,
-    description: area.description || `Professional sewer camera inspection services in ${area.name}, Indiana. Serving homeowners, realtors, and property managers.`,
-    keywords: area.localKeywords || [
-      `sewer inspection ${area.name}`,
-      `sewer camera ${area.name}`,
-      `${area.city} drain inspection`,
-      `sewer line ${area.name} Indiana`,
-    ],
-    openGraph: {
-      title: `Sewer Inspection in ${area.name} | Precision Sewer Inspections`,
-      description: area.description || `Professional sewer inspection services in ${area.name}.`,
-      url: `/sewer-inspection/${slug}`,
-      type: 'website',
-    },
-    alternates: {
-      canonical: `/sewer-inspection/${slug}`,
-    },
-  };
+  return pageMetadata(
+    `/sewer-inspection/${slug}`,
+    `Sewer Camera Inspection in ${area.name}, ${area.state}`,
+    area.description || `Sewer camera inspection information for ${area.name}, Indiana. Contact PSI to confirm your property address, access and available appointment.`,
+  );
 }
 
 // Generate static params for all active service areas

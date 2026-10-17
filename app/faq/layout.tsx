@@ -1,16 +1,7 @@
-import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/page-metadata'
 
-export const metadata: Metadata = {
-  title: 'Sewer Scope FAQ Indianapolis | Common Questions Answered',
-  description: 'Answers to frequently asked questions about sewer scope inspections in Indianapolis. Cost, process, timing, equipment, and more. Get answers before you book.',
-  openGraph: {
-    title: 'Sewer Inspection FAQ | Precision Sewer Inspections Indianapolis',
-    description: 'Common questions about sewer scope inspections answered. Pricing, process, what to expect, and more.',
-  },
-  alternates: {
-    canonical: '/faq',
-  },
-}
+export const metadata = pageMetadata("/faq", "Sewer Camera Inspection Questions and Answers", "Find answers about PSI sewer camera inspections, access, video, reports, costs and optional next steps. Call (317) 620-3858 to discuss your property.")
+
 
 export default function FAQLayout({
   children,

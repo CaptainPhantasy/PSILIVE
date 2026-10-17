@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/page-metadata'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import AIChat from '@/components/ai-chat'
@@ -19,19 +19,8 @@ import { T } from '@/components/diversity/diversity-provider'
 const BBB_PROFILE_URL =
   'https://www.bbb.org/us/in/indianapolis/profile/sewer-inspection/precision-sewer-inspection-llc-0382-90068319'
 
-export const metadata: Metadata = {
-  title: 'Realtor Sewer Scope Indianapolis | Partner Program for Agents & Brokers',
-  description:
-    'The sewer scope built for real estate transactions: pre-listing and buyer scope inspections across Central Indiana with priority scheduling and one-business-day reports. Evidence-led reporting with optional service guidance when requested.',
-  openGraph: {
-    title: 'Sewer Scope Partner Program for Real Estate Agents | Precision Sewer Inspections',
-    description:
-      'Pre-listing and buyer sewer scopes across Central Indiana. Priority scheduling, one-business-day reports, and findings that inform without inflating.',
-  },
-  alternates: {
-    canonical: '/realtors',
-  },
-}
+export const metadata = pageMetadata("/realtors", "Sewer Camera Inspections for Real Estate Transactions", "Arrange buyer or pre-listing sewer camera inspections in Central Indiana. PSI provides recorded evidence, written findings and explanations for agents and clients.")
+
 
 const trustItems = [
   {

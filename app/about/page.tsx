@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/page-metadata'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import AIChat from '@/components/ai-chat'
@@ -6,17 +6,8 @@ import Link from 'next/link'
 import { ArrowRight, Shield, Award, Heart, Eye, Zap, Users, Check } from 'lucide-react'
 import { T } from '@/components/diversity/diversity-provider'
 
-export const metadata: Metadata = {
-  title: 'About PSI | Clear Findings & Connected Service',
-  description: "Meet Precision Sewer Inspections: video evidence, clear reporting, and optional next steps through our sister company, Indiana Drain Company. Serving Central Indiana.",
-  openGraph: {
-    title: 'About PSI | Clear Findings & Connected Service',
-    description: "Meet Precision Sewer Inspections: video evidence, clear reporting, and optional next steps through our sister company, Indiana Drain Company. Serving Central Indiana.",
-  },
-  alternates: {
-    canonical: '/about',
-  },
-}
+export const metadata = pageMetadata("/about", "About PSI: Independent Sewer Inspection Findings", "Meet Precision Sewer Inspections in Central Indiana. Learn how PSI documents visible conditions and explains its relationship with Indiana Drain Company.")
+
 
 const values = [
   { icon: Heart, title: 'Honesty Over Profit', description: "We'd rather lose a sale than gain it through deception." },

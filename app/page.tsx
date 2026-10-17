@@ -20,6 +20,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
       <StructuredData type="LocalBusiness" />
+      <StructuredData type="WebSite" />
       <StructuredData type="FAQPage" faqs={FAQ_ITEMS.slice(0, 5)} />
       <Header />
       <main className="flex-1">

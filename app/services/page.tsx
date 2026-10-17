@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/page-metadata'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import AIChat from '@/components/ai-chat'
@@ -12,17 +12,8 @@ import { T } from '@/components/diversity/diversity-provider'
 import InspectionServiceIntro from '@/components/inspection-service-intro'
 import FindingsExplained from '@/components/findings-explained'
 
-export const metadata: Metadata = {
-  title: 'Sewer Scope Services Indianapolis | Residential, Commercial & Real Estate',
-  description: 'Professional sewer inspection services in Indianapolis. Residential sewer scope from $159, commercial inspections, and real estate partner programs. HD video, one-business-day reports. Book today.',
-  openGraph: {
-    title: 'Sewer Inspection Services | Precision Sewer Inspections Indianapolis',
-    description: 'Residential, commercial, and real estate sewer scope inspections. HD video, one-business-day delivery, InterNACHI member.',
-  },
-  alternates: {
-    canonical: '/services',
-  },
-}
+export const metadata = pageMetadata("/services", "Sewer Camera Inspection Services in Indianapolis", "Sewer and drain camera inspections for homeowners, buyers, contractors and property managers. Review PSI's video documentation, written findings and service options.")
+
 
 const services = [
   {

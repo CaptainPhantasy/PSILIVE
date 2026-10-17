@@ -176,7 +176,7 @@ export default function RealtorLeadForm() {
 
         <p className="text-xs text-gray-500 text-center">
           <T>We use your details only to contact you about the Partner Program — no spam, no list-selling.</T>{' '}
-          <Link href="/privacy" className="text-primary-600 hover:underline">
+          <Link href="/privacy" className="text-primary-600 underline underline-offset-2">
             <T>Privacy Policy</T>
           </Link>
         </p>
