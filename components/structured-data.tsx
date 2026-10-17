@@ -1,6 +1,6 @@
 import { COMPANY_INFO, FAQ_ITEMS } from '@/lib/constants'
 import { SITE_URL, SERVICE_AREA_LINKS } from '@/lib/service-areas'
-import { BUSINESS_ID, WEBSITE_ID, businessSchema, websiteSchema, jsonLd } from '@/lib/schema/business'
+import { BUSINESS_ID, WEBSITE_ID, businessSchema, websiteSchema, inspectionOffers, jsonLd } from '@/lib/schema/business'
 
 interface StructuredDataProps {
   type: 'LocalBusiness' | 'WebSite' | 'Service' | 'FAQPage' | 'WebPage' | 'BreadcrumbList'
@@ -32,6 +32,7 @@ export default function StructuredData({ type, pageTitle, pageDescription, pageP
             '@id': `${SITE_URL}/services#sewer-camera-inspection`,
             name: 'Sewer Camera Inspection',
             serviceType: 'Sewer Camera Inspection',
+            offers: inspectionOffers(),
             url: `${SITE_URL}/services`,
             provider: { '@id': BUSINESS_ID },
             areaServed: SERVICE_AREA_LINKS.map(({ name }) => ({ '@type': 'City', name: `${name}, Indiana` })),

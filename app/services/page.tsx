@@ -12,7 +12,7 @@ import { T } from '@/components/diversity/diversity-provider'
 import InspectionServiceIntro from '@/components/inspection-service-intro'
 import FindingsExplained from '@/components/findings-explained'
 
-export const metadata = pageMetadata("/services", "Sewer Camera Inspection Services in Indianapolis", "Sewer and drain camera inspections for homeowners, buyers, contractors and property managers. Review PSI's video documentation, written findings and service options.")
+export const metadata = pageMetadata("/services", "Sewer, Drain and Pump Inspection Services", "PSI sewer, drain and pump inspections, video reports and separately approved hydro jetting. Optional cleaning, maintenance and qualifying repairs through Indiana Drain Company.")
 
 
 const services = [

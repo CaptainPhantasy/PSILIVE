@@ -26,6 +26,24 @@ export function generateServiceSchema(service: ServiceOffering, area?: ServiceAr
     url: `${SITE_URL}${servicePage}`,
     provider: { '@id': BUSINESS_ID },
     serviceType: service.name,
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Sewer Inspection Services',
+      itemListElement: [{
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: service.name },
+        price: service.basePrice > 0 ? service.basePrice.toString() : undefined,
+        priceCurrency: 'USD',
+        priceSpecification: service.priceUnit ? {
+          '@type': 'UnitPriceSpecification',
+          priceType: service.priceUnit.includes('starting') ? 'https://schema.org/ListPrice' : 'https://schema.org/DRP',
+          priceCurrency: 'USD',
+        } : undefined,
+      }],
+    },
+    ...(service.features?.length > 0 && {
+      additionalProperty: service.features.map(value => ({ '@type': 'PropertyValue', name: 'Includes', value })),
+    }),
     areaServed: area ? { '@type': 'City', name: `${area.name}, Indiana` } : 'Central Indiana',
   }
 }

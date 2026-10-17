@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { SITE_URL } from '@/lib/service-areas'
 
-export const SITE_DESCRIPTION = 'Independent sewer camera inspections in Central Indiana with recorded video, clear written findings and inspection limits explained. Call (317) 620-3858.'
-export const SITE_TITLE = 'Sewer Camera Inspections in Central Indiana'
+export const SITE_DESCRIPTION = 'Central Indiana sewer, drain and pump inspections with clear findings. Optional cleaning, maintenance and qualifying repairs through sister company Indiana Drain Company.'
+export const SITE_TITLE = 'Sewer, Drain and Pump Inspections in Central Indiana'
 
 /** Use the production page's URL even when reviewing a separate editing copy. */
 export function pageMetadata(path: string, title: string, description: string): Metadata {

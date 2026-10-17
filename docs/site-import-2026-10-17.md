@@ -31,3 +31,7 @@ This branch does not migrate the application to a different host, connect new cr
 - Rendered home, pricing, contact, and contractor pages retained booking links. The rendered contact page retained the four-step indicator, service selector, property/access fields, access verification, and continue control.
 
 These checks do not represent an actual charge, appointment, or email delivery. Production payment/calendar credentials were not used.
+
+## PSI–IDC information correction
+
+The follow-up correction broadens the site and services-page descriptions to include drain and pump inspections and optional IDC services. Business structured information now explicitly describes shared ownership and the separately approved IDC service relationship, links the existing explanation page, and restores PSI inspection offers. Standard, toilet-pull, and roof-access prices are read from the existing checkout options rather than maintained as a second price list. Individual service offer prices and package features are restored from the existing service records. No IDC price or automatic customer/job transfer is introduced.
