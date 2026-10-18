@@ -7,11 +7,11 @@ export default function FinalCTA() {
   return (
     <section className="psi dark" data-screen-label="Final CTA" style={{ backgroundColor: 'var(--accent)', padding: '4rem 0' }}>
       <div className="container" style={{ textAlign: 'center' }}>
-        
+
         <h2 className="psi" style={{ color: '#fff', border: 'none', padding: 0, marginBottom: '1rem' }}>
           <T>Don&apos;t Guess. Know What&apos;s In Your Pipes.</T>
         </h2>
-        
+
         <p className="lede" style={{ color: '#fff', opacity: 0.9, maxWidth: '600px', margin: '0 auto 2rem auto' }}>
           <T>Book your professional sewer inspection today and get the evidence you need to make confident decisions.</T>
         </p>
@@ -20,9 +20,9 @@ export default function FinalCTA() {
           <Link
             href="/contact"
             className="btn"
-            style={{ 
-              backgroundColor: '#fff', 
-              color: 'var(--accent)', 
+            style={{
+              backgroundColor: '#fff',
+              color: 'var(--accent-fill-hover)',
               borderColor: '#fff',
               display: 'inline-flex',
               alignItems: 'center'
@@ -41,7 +41,7 @@ export default function FinalCTA() {
           <span style={{ margin: '0 8px', opacity: 0.5 }}>|</span>
           <span><T>Available 7 Days a Week</T></span>
         </div>
-        
+
       </div>
     </section>
   )

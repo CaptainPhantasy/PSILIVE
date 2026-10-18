@@ -247,7 +247,7 @@ export default function LocatingPage() {
           </div><Link href="/contact" className="btn-primary mt-6">Discuss a locate or route sketch</Link>
         </div></section>
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-amber-600 to-amber-700 text-white py-16 md:py-24">
+        <section className="bg-gradient-to-br from-amber-800 to-amber-900 text-white py-16 md:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="max-w-3xl mx-auto text-center">
               {/* PLS Logo */}
@@ -282,7 +282,7 @@ export default function LocatingPage() {
                 </Link>
                 <a
                   href={`tel:${COMPANY_INFO.phoneRaw}`}
-                  className="bg-amber-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-400 transition-colors inline-flex items-center justify-center gap-2"
+                  className="bg-amber-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-900 transition-colors inline-flex items-center justify-center gap-2"
                 >
                   <Phone className="w-5 h-5" />
                   <T>Call Now</T>
@@ -589,7 +589,7 @@ export default function LocatingPage() {
         </section>
 
         {/* Booking Section */}
-        <section id="booking" className="py-16 bg-amber-600">
+        <section id="booking" className="py-16 bg-amber-800">
           <div className="max-w-2xl mx-auto px-4">
             {isSubmitted ? (
               <div className="bg-white rounded-2xl p-8 text-center">
@@ -602,7 +602,7 @@ export default function LocatingPage() {
                 </p>
                 <p className="text-sm text-gray-500">
                   <T>Questions? Call us at</T>{' '}
-                  <a href={`tel:${COMPANY_INFO.phoneRaw}`} className="text-amber-600 hover:underline">
+                  <a href={`tel:${COMPANY_INFO.phoneRaw}`} className="text-amber-800 underline">
                     {COMPANY_INFO.phone}
                   </a>
                 </p>
@@ -735,7 +735,7 @@ export default function LocatingPage() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full bg-amber-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-700 transition-colors inline-flex items-center justify-center gap-2 disabled:opacity-50"
+                      className="w-full bg-amber-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-900 transition-colors inline-flex items-center justify-center gap-2 disabled:opacity-50"
                     >
                       {isSubmitting ? (
                         <>

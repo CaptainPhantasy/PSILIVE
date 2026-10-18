@@ -1,3 +1,4 @@
+import { pageMetadata } from '@/lib/page-metadata'
 import { Metadata } from 'next'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
@@ -5,13 +6,8 @@ import { Shield, Database, Share2, Lock, Clock, UserCheck, Mail } from 'lucide-r
 import { COMPANY_INFO } from '@/lib/constants'
 import { T } from '@/components/diversity/diversity-provider'
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy | Precision Sewer Inspections',
-  description: 'Privacy policy for Precision Sewer Inspections. Learn how we collect, use, and protect your personal information.',
-  alternates: {
-    canonical: '/privacy',
-  },
-}
+export const metadata = pageMetadata("/privacy", "Privacy Policy", "Read how Precision Sewer Inspections collects and uses contact, booking and inspection information, and how to ask questions about your personal data.")
+
 
 export default function PrivacyPage() {
   return (
@@ -19,7 +15,7 @@ export default function PrivacyPage() {
       <Header />
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-gradient-to-b from-primary-50 to-white py-16">
+        <section className="py-16" style={{ background: "linear-gradient(to bottom, var(--paper-3), var(--paper))" }}>
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
               <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -35,7 +31,7 @@ export default function PrivacyPage() {
         {/* Privacy Policy Content */}
         <section className="py-12 bg-white">
           <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-4xl mx-auto [overflow-wrap:anywhere]">
               <p className="text-gray-600 mb-8">
                 <strong><T>Effective Date:</T></strong> March 2026<br />
                 <strong><T>Last Updated:</T></strong> March 2026
@@ -106,7 +102,7 @@ export default function PrivacyPage() {
 
                 <h3 className="text-lg font-semibold text-gray-800 mt-4 mb-3"><T>Service Providers</T></h3>
                 <ul className="list-disc pl-6 text-gray-700 space-y-2 mb-4">
-                  <li><strong><T>Payment processing:</T></strong> <T>Stripe processes payments on our behalf. See</T> <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline"><T>Stripe's Privacy Policy</T></a>.</li>
+                  <li><strong><T>Payment processing:</T></strong> <T>Stripe processes payments on our behalf. See</T> <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" className="text-primary-600 underline underline-offset-2"><T>Stripe's Privacy Policy</T></a>.</li>
                   <li><strong><T>Email services:</T></strong> <T>We use third-party services to send transactional emails (confirmations, reports)</T></li>
                   <li><strong><T>Cloud storage:</T></strong> <T>Inspection videos and reports are stored with secure cloud providers</T></li>
                   <li><strong><T>Website hosting:</T></strong> <T>Our website is hosted by third-party infrastructure providers</T></li>
@@ -167,7 +163,7 @@ export default function PrivacyPage() {
                   <li><strong><T>Communications:</T></strong> <T>You can opt out of promotional emails by following unsubscribe instructions (note: you'll still receive transactional emails related to your service)</T></li>
                 </ul>
                 <p className="text-gray-700">
-                  <T>To exercise these rights, contact us at</T> <a href="mailto:support@precisionsewerinspections.com" className="text-primary-600 hover:underline">support@precisionsewerinspections.com</a>.
+                  <T>To exercise these rights, contact us at</T> <a href="mailto:support@precisionsewerinspections.com" className="text-primary-600 underline underline-offset-2">support@precisionsewerinspections.com</a>.
                 </p>
               </div>
 

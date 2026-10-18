@@ -9,9 +9,8 @@ export const revalidate = 3600
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_URL
-  const now = new Date()
 
-  // Core static marketing pages.
+  // Publish truthful canonical URLs. Omit dates when no last-edit record exists.
   const staticRoutes: MetadataRoute.Sitemap = (
     [
       { path: '', changeFrequency: 'weekly' as const, priority: 1 },
@@ -21,6 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       { path: '/areas', changeFrequency: 'weekly' as const, priority: 0.8 },
       { path: '/locating', changeFrequency: 'monthly' as const, priority: 0.8 },
       { path: '/realtors', changeFrequency: 'monthly' as const, priority: 0.8 },
+      { path: '/contractors/lateral-lining-inspections', changeFrequency: 'monthly' as const, priority: 0.8 },
       { path: '/video-review', changeFrequency: 'monthly' as const, priority: 0.8 },
       { path: '/about', changeFrequency: 'monthly' as const, priority: 0.7 },
       { path: '/inspection-and-service', changeFrequency: 'monthly' as const, priority: 0.8 },
@@ -31,22 +31,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ] as const
   ).map((r) => ({
     url: `${baseUrl}${r.path}`,
-    lastModified: now,
     changeFrequency: r.changeFrequency,
     priority: r.priority,
   }))
 
   // Service-area landing pages — live DB first, canonical list as a safe fallback.
-  const areas = await withDatabaseFallback(
+  const areas = await withDatabaseFallback<Array<{ slug: string; updatedAt: Date | null }>>(
     prisma.serviceArea.findMany({
       where: { isActive: true },
       select: { slug: true, updatedAt: true },
     }),
-    SERVICE_AREA_LINKS.map((a) => ({ slug: a.slug, updatedAt: now })),
+    SERVICE_AREA_LINKS.map((a) => ({ slug: a.slug, updatedAt: null as Date | null })),
   )
   const areaRoutes: MetadataRoute.Sitemap = areas.map((a) => ({
     url: `${baseUrl}/sewer-inspection/${a.slug}`,
-    lastModified: a.updatedAt ?? now,
+    ...(a.updatedAt ? { lastModified: a.updatedAt } : {}),
     changeFrequency: 'weekly',
     priority: 0.8,
   }))
@@ -56,7 +55,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     resourceRoutes = getAllPosts().map((p) => ({
       url: `${baseUrl}/resources/${p.slug}`,
-      lastModified: p.date ? new Date(p.date) : now,
       changeFrequency: 'monthly',
       priority: 0.6,
     }))

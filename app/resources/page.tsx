@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/page-metadata'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import AIChat from '@/components/ai-chat'
@@ -8,17 +8,8 @@ import { ArrowRight, BookOpen, Calendar, Clock } from 'lucide-react'
 import { COMPANY_INFO } from '@/lib/constants'
 import { T } from '@/components/diversity/diversity-provider'
 
-export const metadata: Metadata = {
-  title: 'Sewer Inspection Resources & Education',
-  description: 'Learn about sewer inspections, common pipe problems, maintenance tips, and what to expect during a professional sewer scope. Expert guides from Precision Sewer Inspections.',
-  openGraph: {
-    title: 'Sewer Inspection Resources | Precision Sewer Inspections',
-    description: 'Expert guides on sewer inspections, common problems, and maintenance tips for Central Indiana homeowners.',
-  },
-  alternates: {
-    canonical: '/resources',
-  },
-}
+export const metadata = pageMetadata("/resources", "Sewer Camera Inspection Guides and Resources", "Read PSI guides to sewer camera inspections, visible pipe conditions, home buying and sewer maintenance. Learn what to ask before an inspection.")
+
 
 export default function ResourcesPage() {
   const posts = getAllPosts()

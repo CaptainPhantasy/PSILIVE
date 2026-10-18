@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/page-metadata'
 import Link from 'next/link'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
@@ -7,11 +7,8 @@ import { T } from '@/components/diversity/diversity-provider'
 import FindingsExplained from '@/components/findings-explained'
 import { IDC_URL, INSPECTION_SERVICE_FAQ, CLEANING_FAQ } from '@/lib/inspection-and-service'
 
-export const metadata: Metadata = {
-  title: 'Inspection & Service | PSI + Indiana Drain Company',
-  description: 'Clear PSI inspection findings, with optional cleaning, maintenance and repair services through our sister company, Indiana Drain Company. You choose the next step.',
-  alternates: { canonical: '/inspection-and-service' },
-}
+export const metadata = pageMetadata("/inspection-and-service", "PSI Inspections and Indiana Drain Company Services", "Understand how PSI and its sister company, Indiana Drain Company, work together. Independent findings come first; repair guidance is available when you ask.")
+
 
 const questions = [
   INSPECTION_SERVICE_FAQ,

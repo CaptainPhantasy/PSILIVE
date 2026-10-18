@@ -92,8 +92,10 @@ export default function FAQPage() {
               
               {/* Search */}
               <div className="relative max-w-lg mx-auto">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <label htmlFor="faq-search" className="sr-only"><T>Search questions</T></label>
+                <Search aria-hidden="true" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
+                  id="faq-search"
                   type="text"
                   placeholder={t('Search questions...')}
                   value={searchQuery}
@@ -120,11 +122,16 @@ export default function FAQPage() {
                     className="border border-gray-200 rounded-xl overflow-hidden"
                   >
                     <button
+                      id={`faq-question-${index}`}
+                      type="button"
+                      aria-expanded={openIndex === index}
+                      aria-controls={openIndex === index ? `faq-answer-${index}` : undefined}
                       onClick={() => setOpenIndex(openIndex === index ? null : index)}
                       className="w-full px-6 py-4 flex items-center justify-between text-left bg-gray-50 hover:bg-gray-100 transition-colors"
                     >
                       <span className="font-semibold text-gray-900 pr-4"><T>{item?.question ?? ''}</T></span>
                       <ChevronDown
+                        aria-hidden="true"
                         className={`w-5 h-5 text-gray-500 flex-shrink-0 transition-transform duration-300 ${
                           openIndex === index ? 'rotate-180' : ''
                         }`}
@@ -133,6 +140,9 @@ export default function FAQPage() {
                     <AnimatePresence>
                       {openIndex === index && (
                         <motion.div
+                          id={`faq-answer-${index}`}
+                          role="region"
+                          aria-labelledby={`faq-question-${index}`}
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}

@@ -38,14 +38,39 @@ export default function DiversityToolbar() {
   const [open, setOpen] = React.useState(false)
   const panelRef = React.useRef<HTMLDivElement>(null)
   const buttonRef = React.useRef<HTMLButtonElement>(null)
+  const exitButtonRef = React.useRef<HTMLButtonElement>(null)
+  const focusAfterAgentChange = React.useRef(false)
+  const panelId = React.useId()
+
+  const closePanel = React.useCallback(() => {
+    setOpen(false)
+    buttonRef.current?.focus()
+  }, [])
+
+  React.useEffect(() => {
+    if (open) panelRef.current?.focus()
+  }, [open])
+
+  React.useEffect(() => {
+    if (!focusAfterAgentChange.current) return
+    focusAfterAgentChange.current = false
+    if (agentMode) exitButtonRef.current?.focus()
+    else buttonRef.current?.focus()
+  }, [agentMode])
+
+  const changeAgentMode = () => {
+    focusAfterAgentChange.current = true
+    setOpen(false)
+    toggleAgentMode()
+  }
 
   // Close on Escape and on outside click.
   React.useEffect(() => {
     if (!open) return
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setOpen(false)
-        buttonRef.current?.focus()
+      if (e.key === 'Escape' && !e.defaultPrevented) {
+        e.preventDefault()
+        closePanel()
       }
     }
     const onClick = (e: MouseEvent) => {
@@ -54,7 +79,7 @@ export default function DiversityToolbar() {
         !panelRef.current.contains(e.target as Node) &&
         !buttonRef.current?.contains(e.target as Node)
       ) {
-        setOpen(false)
+        closePanel()
       }
     }
     document.addEventListener('keydown', onKey)
@@ -63,7 +88,7 @@ export default function DiversityToolbar() {
       document.removeEventListener('keydown', onKey)
       document.removeEventListener('mousedown', onClick)
     }
-  }, [open])
+  }, [open, closePanel])
 
   const themeOptions: { value: ThemePreference; label: string; icon: React.ReactNode }[] = [
     { value: 'light', label: t('Light'), icon: <Sun className="w-4 h-4" /> },
@@ -83,8 +108,9 @@ export default function DiversityToolbar() {
           button is deliberately NOT flagged data-agent-hidden. */}
       {agentMode && (
         <button
+          ref={exitButtonRef}
           type="button"
-          onClick={toggleAgentMode}
+          onClick={changeAgentMode}
           aria-label={t('Exit agent mode')}
           className="fixed bottom-6 left-6 z-50 flex items-center gap-2 rounded-full bg-primary-700 px-4 py-3 text-xs font-semibold text-white shadow-lg hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-500/40 transition-colors"
         >
@@ -96,9 +122,12 @@ export default function DiversityToolbar() {
       {open && (
         <div
           ref={panelRef}
+          id={panelId}
           role="dialog"
+          aria-modal="false"
           aria-label={t('Accessibility & language options')}
-          className="absolute bottom-16 left-0 w-72 max-w-[calc(100vw-48px)] rounded-2xl bg-white text-gray-900 shadow-2xl border border-gray-200 p-4"
+          tabIndex={-1}
+          className="absolute bottom-16 left-0 w-72 max-w-[calc(100vw-48px)] max-h-[calc(100dvh-7rem)] overflow-y-auto overscroll-contain rounded-2xl bg-white text-gray-900 shadow-2xl border border-gray-200 p-4"
         >
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-sm font-bold text-gray-900 flex items-center gap-2">
@@ -107,7 +136,7 @@ export default function DiversityToolbar() {
             </h2>
             <button
               type="button"
-              onClick={() => setOpen(false)}
+              onClick={closePanel}
               aria-label={t('Close')}
               className="p-1 rounded-md text-gray-500 hover:bg-gray-100"
             >
@@ -177,7 +206,7 @@ export default function DiversityToolbar() {
               icon={<Bot className="w-4 h-4" />}
               label={t('Machine / agent mode')}
               checked={agentMode}
-              onChange={toggleAgentMode}
+              onChange={changeAgentMode}
             />
           </div>
         </div>
@@ -186,8 +215,9 @@ export default function DiversityToolbar() {
       <button
         ref={buttonRef}
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => open ? closePanel() : setOpen(true)}
         aria-expanded={open}
+        aria-controls={open ? panelId : undefined}
         aria-haspopup="dialog"
         aria-label={t('Accessibility & language options')}
         className="flex items-center justify-center w-12 h-12 rounded-full bg-primary-700 text-white shadow-lg hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-500/40 transition-colors"
