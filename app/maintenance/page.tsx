@@ -43,7 +43,7 @@ export default function MaintenancePage() {
         <section className="cover" data-screen-label="Maintenance Holding Page">
           <div className="container">
             <div className="cover-grid">
-              <div>
+              <div className="min-w-0">
                 <span className="pill outline-dark"><T>Planned Routine Maintenance</T></span>
                 <h1>
                   We&apos;re Tightening Up The <em>Website</em>
@@ -60,7 +60,7 @@ export default function MaintenancePage() {
                   <a className="btn btn-accent" href="tel:3176203858">
                     Call (317) 620-3858 <span className="arrow">→</span>
                   </a>
-                  <a className="btn btn-outline-dark" href="mailto:booking@precisionsewerinspections.com">
+                  <a className="btn btn-outline-dark" href="mailto:booking@precisionsewerinspections.com" style={{ overflowWrap: "anywhere", minWidth: 0, maxWidth: "100%" }}>
                     booking@precisionsewerinspections.com
                   </a>
                 </div>
@@ -133,9 +133,9 @@ export default function MaintenancePage() {
         </section>
       </main>
 
-      <footer className="site" data-screen-label="Maintenance Footer">
+      <footer className="site" data-screen-label="Maintenance Footer" style={{ overflowWrap: "anywhere" }}>
         <div className="container">
-          <div className="footer-grid">
+          <div className="footer-grid [&>div]:min-w-0">
             <div className="footer-brand">
               <Link className="lockup" href="/">
                 <div className="mark">
@@ -176,7 +176,7 @@ export default function MaintenancePage() {
                 </li>
                 <li className="contact-line">
                   <span className="label-mini"><T>Email</T></span>
-                  <a href="mailto:booking@precisionsewerinspections.com">
+                  <a href="mailto:booking@precisionsewerinspections.com" className="min-w-0">
                     booking@precisionsewerinspections.com
                   </a>
                 </li>
@@ -187,7 +187,7 @@ export default function MaintenancePage() {
               <ul>
                 <li className="contact-line">
                   <span className="label-mini"><T>Serving</T></span>
-                  <span>Indianapolis Metro &amp; Surrounding Areas</span>
+                  <span className="min-w-0">Indianapolis Metro &amp; Surrounding Areas</span>
                 </li>
               </ul>
             </div>

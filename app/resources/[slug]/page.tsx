@@ -1,3 +1,6 @@
+import { pageMetadata } from '@/lib/page-metadata'
+import { SITE_URL } from '@/lib/service-areas'
+import { BUSINESS_ID, WEBSITE_ID, businessSchema, websiteSchema, jsonLd } from '@/lib/schema/business'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Header from '@/components/header'
@@ -21,18 +24,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(params.slug)
   if (!post) return { title: 'Post Not Found' }
 
+  const metadata = pageMetadata(`/resources/${params.slug}`, post.title, post.description)
   return {
-    title: post.title,
-    description: post.description,
+    ...metadata,
     openGraph: {
-      title: post.title,
-      description: post.description,
+      ...metadata.openGraph,
       type: 'article',
       publishedTime: post.date,
       authors: [post.author],
-    },
-    alternates: {
-      canonical: `/resources/${params.slug}`,
     },
   }
 }
@@ -51,6 +50,26 @@ export default function BlogPostPage({ params }: Props) {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd({
+        '@context': 'https://schema.org',
+        '@graph': [
+          businessSchema(),
+          websiteSchema(),
+          {
+            '@type': 'Article',
+            '@id': `${SITE_URL}/resources/${post.slug}/#article`,
+            headline: post.title,
+            description: post.description,
+            url: `${SITE_URL}/resources/${post.slug}`,
+            mainEntityOfPage: `${SITE_URL}/resources/${post.slug}`,
+            datePublished: post.date,
+            author: { '@type': 'Organization', name: post.author },
+            publisher: { '@id': BUSINESS_ID },
+            isPartOf: { '@id': WEBSITE_ID },
+            inLanguage: 'en-US',
+          },
+        ],
+      })} />
       <main className="flex-1">
         {/* Breadcrumb */}
         <div className="bg-gray-50 border-b border-gray-200">

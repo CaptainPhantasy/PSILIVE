@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import { SITE_URL } from '@/lib/service-areas'
+import { SITE_DESCRIPTION, SITE_TITLE } from '@/lib/page-metadata'
 import './globals.css'
 import './psi-website.css'
 import { Toaster } from 'react-hot-toast'
@@ -10,15 +12,15 @@ import DiversityGate from '@/components/diversity/diversity-gate'
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://precisionsewerinspections.com'
+  const baseUrl = SITE_URL
   
   return {
     metadataBase: new URL(baseUrl),
     title: {
-      default: 'Sewer Scope Indianapolis from $159 | Precision Sewer',
-      template: '%s | Precision Sewer',
+      default: `${SITE_TITLE} | Precision Sewer Inspections`,
+      template: '%s | Precision Sewer Inspections',
     },
-    description: 'Central Indiana sewer inspections from $159 with HD video and clear written findings. Optional cleaning and service through sister company Indiana Drain Company.',
+    description: SITE_DESCRIPTION,
     authors: [{ name: 'Precision Sewer Inspections' }],
     creator: 'Precision Sewer Inspections',
     publisher: 'Precision Sewer Inspections',
@@ -34,24 +36,25 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     manifest: '/manifest.json',
     openGraph: {
-      title: 'Sewer Scope Indianapolis from $159 | Precision Sewer',
-      description: "See what's really in your pipes. HD video sewer inspection with one-business-day delivery. InterNACHI member. Central Indiana.",
+      title: `${SITE_TITLE} | Precision Sewer Inspections`,
+      description: SITE_DESCRIPTION,
       images: [
         {
           url: '/og-image.png',
           width: 1200,
           height: 630,
-          alt: 'Precision Sewer Inspections - Central Indiana Sewer Scope Experts',
+          alt: 'Precision Sewer Inspections',
         },
       ],
       type: 'website',
       locale: 'en_US',
       siteName: 'Precision Sewer Inspections',
+      url: SITE_URL,
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Indianapolis Sewer Scope from $159 | Precision Sewer',
-      description: "Central Indiana's trusted sewer inspection. InterNACHI member, one-business-day HD reports.",
+      title: `${SITE_TITLE} | Precision Sewer Inspections`,
+      description: SITE_DESCRIPTION,
       images: ['/og-image.png'],
     },
     robots: {
@@ -66,7 +69,7 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     alternates: {
-      canonical: 'https://precisionsewerinspections.com',
+      canonical: SITE_URL,
     },
     verification: {
       // Add these when you have them

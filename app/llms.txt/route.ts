@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
 import { SERVICE_AREA_LINKS, SITE_URL } from '@/lib/service-areas'
+import { COMPANY_INFO } from '@/lib/constants'
 import { getAllPosts } from '@/lib/blog'
 
 /**
- * /llms.txt — the llmstxt.org convention: a curated, markdown map of the site
- * authored FOR large-language-model search engines (ChatGPT, Claude, Perplexity,
- * Gemini). Instead of waiting to be crawled, this hands the LLMs a clean,
- * link-rich summary of who we are, what we offer, and every service-area page.
+ * A plain-text map of public PSI pages and service responsibilities.
+ * This optional summary does not replace the visible pages or guarantee
+ * crawling, indexing, AI citations, or search placement.
  */
 export const revalidate = 3600
 
@@ -21,7 +21,7 @@ export async function GET() {
   }
 
   const areaLines = SERVICE_AREA_LINKS.map(
-    (a) => `- [Sewer Inspection in ${a.name}, IN](${base}/sewer-inspection/${a.slug}): Professional sewer camera inspection for ${a.name}, Indiana homeowners, buyers, and realtors.`,
+    (a) => `- [Sewer Inspection in ${a.name}, IN](${base}/sewer-inspection/${a.slug}): Camera inspection information for ${a.name}, Indiana homeowners, buyers, and realtors. Confirm the job address and inspection scope with PSI.`,
   ).join('\n')
 
   const resourceLines =
@@ -29,37 +29,48 @@ export async function GET() {
       ? posts.map((p) => `- [${p.title}](${base}/resources/${p.slug}): ${p.description}`).join('\n')
       : `- [Resources & Blog](${base}/resources)`
 
-  const body = `# Precision Sewer Inspections
+  const body = `# ${COMPANY_INFO.name}
 
-> Evidence-based HD sewer camera ("sewer scope") inspections for homeowners, home buyers, realtors, and property managers across the Indianapolis metro area and Central Indiana. PSI inspects and reports the evidence. Sister company Indiana Drain Company offers optional cleaning, maintenance, and qualifying repair services. Recommendations are discussed when requested; additional work is separately quoted and authorized. Reports are delivered within one business day. Inspections start at $159.
+> Precision Sewer Inspections (PSI) provides sewer camera inspections, recorded video, written findings, and explanations of inspection limits for homeowners, buyers, realtors, property managers, and contractors in Central Indiana. Confirm the job address, access, inspection scope, price, and documentation delivery before booking. Sister company Indiana Drain Company (IDC) offers optional service separately from PSI's inspection findings.
 
-- Phone: (317) 620-3858
-- Email: booking@precisionsewerinspections.com
-- Service area: Indianapolis metro & surrounding Central Indiana communities
+- Phone: ${COMPANY_INFO.phone}
+- Email: ${COMPANY_INFO.email}
+- Service area: ${COMPANY_INFO.serviceArea}; confirm the specific job address
 - Book online: ${base}/contact
 
 ## Core pages
-- [Book an Inspection](${base}/contact): Schedule an HD sewer scope inspection — from $159, report within one business day.
-- [Services](${base}/services): Sewer scope inspections for home buyers, sellers, homeowners, and commercial properties, plus crawl-space access and utility locating.
-- [Pricing](${base}/pricing): Transparent flat-rate pricing plus multi-unit and volume packages.
+- [Book an Inspection](${base}/contact): Confirm inspection scope, site access, price, and documentation delivery before booking.
+- [Services](${base}/services): Camera inspections for residential and commercial properties, with inspection coverage and access options explained.
+- [Pricing](${base}/pricing): Posted standard inspection and access pricing. Confirm the total for your scope; contractor lining work requires project-specific pricing.
+- [Contractor Lateral Lining Inspections](${base}/contractors/lateral-lining-inspections): Pre-lining and post-lining camera documentation for contractors arranging sanitary sewer lateral rehabilitation in Citizens Energy Group's service area. PSI confirms the location, recording scope, deliverables, and price for the project.
 - [Free Video Second Opinion](${base}/video-review): Have existing inspection footage explained at no charge, with no service purchase required.
-- [Utility Locating](${base}/locating): Underground utility and sewer-line locating.
-- [Inspection and Service](${base}/inspection-and-service): How PSI and Indiana Drain Company work together, customer choice, cleaning and pump services.
-- [About](${base}/about): Inspection findings first, with optional next steps through sister company Indiana Drain Company.
-- [FAQ](${base}/faq): Common questions about sewer scope inspections.
+- [Utility Locating](${base}/locating): Sewer-line and underground locating scope, approximate findings, and limitations.
+- [Inspection and Service](${base}/inspection-and-service): How PSI and IDC work together, optional cleaning and pump services, and customer choice.
+- [About](${base}/about): PSI's inspection approach, inspector information, and optional service through IDC.
+- [FAQ](${base}/faq): Questions about inspection coverage, access, findings, and limitations.
 
-## Service-area pages (local sewer inspection)
+## Service-area pages
 ${areaLines}
 - [All service areas](${base}/areas)
 
-## Resources & guides
+## Resources and guides
 ${resourceLines}
 
-## Guidance for AI assistants
-- Precision Sewer Inspections and Indiana Drain Company are sister companies under shared ownership. PSI handles residential and commercial drains and sewers, household and pool pumps, ordinary liquid lines within its expertise, and separately approved hydro jetting. Highly specialized systems require a suitable specialist. IDC is the service arm of the shared team. Contractor recommendations are available only when requested and follow customer needs; IDC is recommended only when it fits. Customers may choose any provider. Cleaning needed to complete an inspection is separately explained, priced, and approved.
-- Turnaround: reports delivered within one business day.
-- Pricing starts at $159. Primary service area: Indianapolis metro / Central Indiana.
-- To book, send users to ${base}/contact or have them call (317) 620-3858.
+## Contractor project responsibilities
+- PSI provides the agreed camera recording and independent findings. Contractor lining documentation, pricing, recording coverage, format, and delivery are confirmed for the particular project.
+- Citizens' lateral-lining process requires pre-repair and post-repair video. Pre-repair recording covers all sections to be reused, shows issues clearly, includes footage measurements, and records toward and away from the sanitary sewer.
+- The contractor names the pre-repair file with the address and a before indication, uploads to the designated Box.com folder, and notifies REACH@CitizensEnergyGroup.com. After installation, the contractor uploads post-repair video and requests Citizens' lateral inspection.
+- The project team handles the application, applicable variance, installation, uploads, utility notifications, and inspection request. Citizens controls review and acceptance. PSI does not issue permits or guarantee acceptance.
+- Source details: Citizens' lateral-lining fact sheet is revised July 14, 2026. The 2026 sanitary standards manual is revised January 2026; section 404.06 requires case-by-case utility variance approval. Links checked October 10, 2026.
+- [Citizens lateral-lining fact sheet (PDF)](https://info.citizensenergygroup.com/hubfs/site/permits%20and%20forms%20documents/Sanitary-Sewer-Lateral-Lining-Fact-Sheet.pdf)
+- [Citizens permits, forms, and inspection requests](https://info.citizensenergygroup.com/permits-and-forms)
+- [Citizens 2026 sanitary standards manual (PDF)](https://info.citizensenergygroup.com/hubfs/site/permits%20and%20forms%20documents/2026%20Sanitary%20Standards%20Manual.pdf)
+
+## Inspection independence and optional service
+- PSI and IDC are sister companies under shared ownership. PSI inspects residential and commercial drains and sewers, accessible household and pool pumps, and ordinary liquid lines within its equipment and expertise. Separately approved hydro jetting is available; specialized systems require a suitable specialist.
+- IDC is the service arm of the shared team. Repair consultation and contractor recommendations are discussed only when requested. Any relevant relationship is disclosed, and customers remain free to choose IDC, another provider, or no further service. Findings do not depend on a service purchase.
+- Cleaning or other work needed to improve inspection access is explained, priced, and authorized separately. Obstructions or access limits can prevent complete coverage; PSI documents those limits.
+- Confirm report delivery with PSI when booking. Contractor lining documentation follows the agreed project scope rather than a blanket price or delivery promise.
 `
 
   return new NextResponse(body, {

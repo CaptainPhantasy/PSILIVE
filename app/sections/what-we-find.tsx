@@ -31,7 +31,7 @@ export default function WhatWeFind() {
               transition={{ duration: 0.4, delay: index * 0.1 }}
               className="pipe"
             >
-              {issue.image.endsWith(".png") && <div className="still">
+              <div className="still">
                 <Image
                   src={issue.image}
                   alt={t(issue.description)}
@@ -39,7 +39,7 @@ export default function WhatWeFind() {
                   sizes="(max-width: 560px) 50vw, (max-width: 1000px) 33vw, 17vw"
                   className="object-cover"
                 />
-              </div>}
+              </div>
               <div className="p-3 bg-primary-50 flex items-center">
                 <p className="text-primary-900 text-base"><T>{issue.description}</T></p>
               </div>

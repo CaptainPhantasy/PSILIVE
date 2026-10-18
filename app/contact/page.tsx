@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/page-metadata'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import AIChat from '@/components/ai-chat'
@@ -8,17 +8,8 @@ import { Phone, Mail, MapPin, Clock, Shield, Video, CheckCircle } from 'lucide-r
 import { COMPANY_INFO } from '@/lib/constants'
 import { T } from '@/components/diversity/diversity-provider'
 
-export const metadata: Metadata = {
-  title: 'Book a Sewer Inspection | Schedule & Pay Online | PSI',
-  description: 'Choose your sewer inspection, select an available appointment, enter your property and contact details, and pay securely through Stripe. Central Indiana inspections from $159.',
-  openGraph: {
-    title: 'Book Your Sewer Inspection | Precision Sewer Inspections Indianapolis',
-    description: 'Book your Central Indiana sewer inspection online with live availability and secure Stripe checkout.',
-  },
-  alternates: {
-    canonical: '/contact',
-  },
-}
+export const metadata = pageMetadata("/contact", "Book a Sewer Camera Inspection", "Choose an inspection, review available appointments and provide property and contact details. Call PSI at (317) 620-3858 with questions about access or scope.")
+
 
 const benefits = [
   { icon: Shield, text: 'InterNACHI Member' },

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useId } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -11,6 +11,7 @@ import { useDiversity } from '@/components/diversity/diversity-provider'
 const navLinks = [
   { href: '/services', label: 'Services' },
   { href: '/pricing', label: 'Pricing' },
+  { href: '/contractors/lateral-lining-inspections', label: 'Contractors' },
   { href: '/areas', label: 'Service Areas' },
   { href: '/locating', label: 'Line & Utility Locating', highlight: true },
   { href: '/about', label: 'About' },
@@ -21,7 +22,22 @@ const navLinks = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+  const mobileMenuId = useId()
   const { t } = useDiversity()
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !event.defaultPrevented) {
+        event.preventDefault()
+        setMobileMenuOpen(false)
+        menuButtonRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [mobileMenuOpen])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -57,7 +73,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-0.5 min-w-0">
+          <nav aria-label={t('Main navigation')} className="hidden lg:flex items-center gap-0.5 min-w-0">
             {navLinks?.map((link) => (
               <Link
                 key={link?.href ?? ''}
@@ -89,11 +105,15 @@ export default function Header() {
               {t('Book Inspection')}
             </Link>
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              ref={menuButtonRef}
+              type="button"
+              onClick={() => setMobileMenuOpen((open) => !open)}
               className="lg:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-lg"
-              aria-label="Toggle menu"
+              aria-label={t(mobileMenuOpen ? 'Close menu' : 'Open menu')}
+              aria-expanded={mobileMenuOpen}
+              aria-controls={mobileMenuOpen ? mobileMenuId : undefined}
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X aria-hidden="true" className="w-6 h-6" /> : <Menu aria-hidden="true" className="w-6 h-6" />}
             </button>
           </div>
         </div>
@@ -106,9 +126,9 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white border-t border-gray-100"
+            className="lg:hidden max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain bg-white border-t border-gray-100"
           >
-            <nav className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1">
+            <nav id={mobileMenuId} aria-label={t('Main navigation')} className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1">
               {navLinks?.map((link) => (
                 <Link
                   key={link?.href ?? ''}

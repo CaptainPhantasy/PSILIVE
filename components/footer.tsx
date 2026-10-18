@@ -85,6 +85,7 @@ export default function Footer() {
 									<T>For Realtors</T>
 								</Link>
 							</li>
+							<li><Link href="/contractors/lateral-lining-inspections" className="text-primary-200 hover:text-white transition-colors text-sm"><T>For Contractors</T></Link></li>
 							<li>
 								<Link
 									href="/pricing"

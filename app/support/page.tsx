@@ -1,3 +1,4 @@
+import { pageMetadata } from '@/lib/page-metadata'
 import { Metadata } from 'next'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
@@ -5,13 +6,8 @@ import { Mail, Phone, Clock, FileText, Shield, AlertTriangle, CreditCard, Camera
 import { COMPANY_INFO } from '@/lib/constants'
 import { T } from '@/components/diversity/diversity-provider'
 
-export const metadata: Metadata = {
-  title: 'Support & Terms of Service | Precision Sewer Inspections',
-  description: 'Get help with your sewer inspection or review our terms of service. Contact support@precisionsewerinspections.com for assistance.',
-  alternates: {
-    canonical: '/support',
-  },
-}
+export const metadata = pageMetadata("/support", "Inspection Reports and Customer Support", "Get help with a PSI sewer inspection, report or appointment. Contact Precision Sewer Inspections at (317) 620-3858 or booking@precisionsewerinspections.com.")
+
 
 export default function SupportPage() {
   return (
@@ -19,7 +15,7 @@ export default function SupportPage() {
       <Header />
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-gradient-to-b from-primary-50 to-white py-16">
+        <section className="py-16" style={{ background: "linear-gradient(to bottom, var(--paper-3), var(--paper))" }}>
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
               <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -35,7 +31,7 @@ export default function SupportPage() {
         {/* Contact Support */}
         <section className="py-12 bg-white">
           <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-4xl mx-auto [overflow-wrap:anywhere]">
               <div className="bg-primary-50 rounded-2xl p-8 mb-12">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                   <Mail className="w-6 h-6 text-primary-600" />
@@ -44,7 +40,7 @@ export default function SupportPage() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
                     <Mail className="w-5 h-5 text-primary-600 flex-shrink-0" />
-                    <div>
+                    <div className="min-w-0">
                       <span className="font-medium text-gray-900"><T>Email:</T></span>{' '}
                       <a href="mailto:support@precisionsewerinspections.com" className="text-primary-600 hover:underline">
                         support@precisionsewerinspections.com
@@ -199,7 +195,7 @@ export default function SupportPage() {
                     <T>8. Disputes</T>
                   </h3>
                   <p className="text-gray-700">
-                    <T>If you have concerns about your inspection or report, please contact us at</T> <a href="mailto:support@precisionsewerinspections.com" className="text-primary-600 hover:underline">support@precisionsewerinspections.com</a>. <T>We are committed to addressing any issues promptly. Any disputes not resolved informally shall be governed by the laws of the State of Indiana.</T>
+                    <T>If you have concerns about your inspection or report, please contact us at</T> <a href="mailto:support@precisionsewerinspections.com" className="text-primary-600 underline underline-offset-2">support@precisionsewerinspections.com</a>. <T>We are committed to addressing any issues promptly. Any disputes not resolved informally shall be governed by the laws of the State of Indiana.</T>
                   </p>
                 </div>
 

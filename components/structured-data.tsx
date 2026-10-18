@@ -1,154 +1,83 @@
-import { COMPANY_INFO, FAQ_ITEMS, SERVICE_AREAS } from '@/lib/constants'
+import { COMPANY_INFO, FAQ_ITEMS } from '@/lib/constants'
+import { SITE_URL, SERVICE_AREA_LINKS } from '@/lib/service-areas'
+import { BUSINESS_ID, WEBSITE_ID, businessSchema, websiteSchema, inspectionOffers, jsonLd } from '@/lib/schema/business'
 
 interface StructuredDataProps {
-  type: 'LocalBusiness' | 'Service' | 'FAQPage' | 'WebPage' | 'BreadcrumbList'
+  type: 'LocalBusiness' | 'WebSite' | 'Service' | 'FAQPage' | 'WebPage' | 'BreadcrumbList'
   pageTitle?: string
   pageDescription?: string
+  pagePath?: string
   breadcrumbs?: { name: string; url: string }[]
-  /**
-   * The exact FAQ items rendered on the page. FAQPage structured data must
-   * describe only what the page actually shows, so callers pass their rendered
-   * list; defaults to the full homepage set for backwards compatibility.
-   */
+  /** Pass only questions and answers that this page visibly renders. */
   faqs?: { question: string; answer: string }[]
 }
 
-export default function StructuredData({ type, pageTitle, pageDescription, breadcrumbs, faqs }: StructuredDataProps) {
-  const baseUrl = 'https://precisionsewerinspections.com'
-
-  const localBusinessSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    '@id': `${baseUrl}/#organization`,
-    name: COMPANY_INFO.name,
-    description: 'HD video sewer scope inspections, one-business-day report delivery, performed by an InterNACHI-member inspector to InterNACHI\'s published Sewer Scope Standards of Practice.',
-    url: baseUrl,
-    telephone: COMPANY_INFO.phone,
-    email: COMPANY_INFO.email,
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Indianapolis',
-      addressRegion: 'IN',
-      addressCountry: 'US',
-    },
-    areaServed: SERVICE_AREAS.map((area) => ({
-      '@type': 'City',
-      name: `${area}, Indiana`,
-    })),
-    priceRange: 'From $159',
-    image: `${baseUrl}/logo.png`,
-    logo: `${baseUrl}/logo.png`,
-    sameAs: [
-      'https://www.bbb.org/us/in/indianapolis/profile/sewer-inspection/precision-sewer-inspection-llc-0382-90068319',
-    ],
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Sewer Inspection Services',
-      itemListElement: [
-        {
-          '@type': 'Offer',
-          itemOffered: {
+export default function StructuredData({ type, pageTitle, pageDescription, pagePath = '/', breadcrumbs, faqs }: StructuredDataProps) {
+  const pageUrl = new URL(pagePath, SITE_URL).toString()
+  let schema: object | null = null
+  switch (type) {
+    case 'LocalBusiness':
+      schema = businessSchema()
+      break
+    case 'WebSite':
+      schema = websiteSchema()
+      break
+    case 'Service':
+      schema = {
+        '@context': 'https://schema.org',
+        '@graph': [
+          businessSchema(),
+          {
             '@type': 'Service',
-            name: 'Standard Sewer Scope Inspection',
-            description: 'HD video inspection of your main sewer line with premium written report delivered within one business day.',
+            '@id': `${SITE_URL}/services#sewer-camera-inspection`,
+            name: 'Sewer Camera Inspection',
+            serviceType: 'Sewer Camera Inspection',
+            offers: inspectionOffers(),
+            url: `${SITE_URL}/services`,
+            provider: { '@id': BUSINESS_ID },
+            areaServed: SERVICE_AREA_LINKS.map(({ name }) => ({ '@type': 'City', name: `${name}, Indiana` })),
+            description: 'Camera inspection of accessible sewer lines with recorded video, written findings and inspection limitations explained.',
           },
-          price: '159.00',
-          priceCurrency: 'USD',
-        },
-      ],
-    },
-  }
-
-  const serviceSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    serviceType: 'Sewer Scope Inspection',
-    provider: {
-      '@type': 'LocalBusiness',
-      name: COMPANY_INFO.name,
-      telephone: COMPANY_INFO.phone,
-    },
-    additionalType: [
-      'sewer camera inspection',
-      'sanitary lateral camera inspection',
-      'pre-purchase sewer scope',
-      'non-invasive sewer line inspection',
-    ],
-    areaServed: SERVICE_AREAS.map((area) => ({
-      '@type': 'City',
-      name: `${area}, Indiana`,
-    })),
-    description: 'Evidence-based sewer camera surveys for home buyers, homeowners, and real estate professionals in Central Indiana. InterNACHI-member inspector, HD footage, premium reporting with transparent pricing.',
-    offers: {
-      '@type': 'Offer',
-      price: '159',
-      priceCurrency: 'USD',
-    },
-  }
-
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: (faqs ?? FAQ_ITEMS).map((item) => ({
-      '@type': 'Question',
-      name: item.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.answer,
-      },
-    })),
-  }
-
-  const webPageSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: pageTitle || COMPANY_INFO.name,
-    description: pageDescription || 'Professional sewer scope inspections in Central Indiana.',
-    url: baseUrl,
-    isPartOf: {
-      '@type': 'WebSite',
-      name: COMPANY_INFO.name,
-      url: baseUrl,
-    },
-  }
-
-  const breadcrumbSchema = breadcrumbs
-    ? {
+        ],
+      }
+      break
+    case 'FAQPage':
+      schema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: (faqs ?? FAQ_ITEMS).map(({ question, answer }) => ({
+          '@type': 'Question',
+          name: question,
+          acceptedAnswer: { '@type': 'Answer', text: answer },
+        })),
+      }
+      break
+    case 'WebPage':
+      schema = {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        '@id': `${pageUrl.replace(/\/$/, '')}/#webpage`,
+        name: pageTitle || COMPANY_INFO.name,
+        description: pageDescription || 'Sewer camera inspections in Central Indiana.',
+        url: pageUrl,
+        isPartOf: { '@id': WEBSITE_ID },
+        about: { '@id': BUSINESS_ID },
+        inLanguage: 'en-US',
+      }
+      break
+    case 'BreadcrumbList':
+      schema = breadcrumbs ? {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: breadcrumbs.map((crumb, index) => ({
           '@type': 'ListItem',
           position: index + 1,
           name: crumb.name,
-          item: crumb.url,
+          item: new URL(crumb.url, SITE_URL).toString(),
         })),
-      }
-    : null
-
-  const getSchema = () => {
-    switch (type) {
-      case 'LocalBusiness':
-        return localBusinessSchema
-      case 'Service':
-        return serviceSchema
-      case 'FAQPage':
-        return faqSchema
-      case 'WebPage':
-        return webPageSchema
-      case 'BreadcrumbList':
-        return breadcrumbSchema
-      default:
-        return localBusinessSchema
-    }
+      } : null
+      break
   }
-
-  const schema = getSchema()
   if (!schema) return null
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
-  )
+  return <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(schema)} />
 }
