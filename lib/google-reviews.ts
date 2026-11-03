@@ -8,7 +8,7 @@ export type GoogleReview = {
   excerpt?: boolean
 }
 
-export const GOOGLE_REVIEWS_URL = 'https://www.google.com/search?q=precision+sewer+inspecitomn'
+export const GOOGLE_REVIEWS_URL = 'https://www.google.com/search?q=precision+sewer+inspections'
 
 export const GOOGLE_REVIEWS: GoogleReview[] = [
   {
