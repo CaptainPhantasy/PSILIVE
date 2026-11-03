@@ -132,4 +132,4 @@ try {
 fs.mkdirSync(path.dirname(outputPath),{recursive:true});
 fs.writeFileSync(outputPath,JSON.stringify({checkedAt:new Date().toISOString(),sourceReport:inputPath,representativeElements:results.length,results},null,2));
 console.log(JSON.stringify({report:outputPath,elements:results.length,failed:results.filter(r=>r.status==='fail').length,missing:results.filter(r=>r.status==='missing-selector').length}));
-if(results.some(r=>r.status==='fail')) process.exitCode=1;
+if(results.some(r=>r.status==='fail' || r.status==='missing-selector')) process.exitCode=1;
