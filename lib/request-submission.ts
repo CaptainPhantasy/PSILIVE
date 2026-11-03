@@ -8,6 +8,9 @@ export async function submitInspectionRequest(data: Record<string, string>) {
     body: JSON.stringify({
       ...data,
       _subject: 'PSI inspection request',
+      ...(data.source === 'video-review'
+        ? { _cc: 'Ryan.galbraith@precisionsewerinspections.com' }
+        : {}),
       _template: 'table',
       _replyto: data.email,
       'Appointment status': 'Request only. No appointment, payment, additional work or dispatch approved.',

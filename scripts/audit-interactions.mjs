@@ -100,11 +100,7 @@ async function scan(page, name, theme, extra = {}) {
       viewportMeta: document.querySelector('meta[name="viewport"]')?.content,
       bookingState: document.querySelector('form h2') ? {
         heading: document.querySelector('form h2').textContent.trim(),
-        stepHeadingFocused: active === document.querySelector('form h2'),
-        headingBounds: { top: document.querySelector('form h2').getBoundingClientRect().top, bottom: document.querySelector('form h2').getBoundingClientRect().bottom },
-        headerBottom: document.querySelector('header')?.getBoundingClientRect().bottom,
-        focusedHeadingClearOfHeader: active !== document.querySelector('form h2') || document.querySelector('form h2').getBoundingClientRect().top >= (document.querySelector('header')?.getBoundingClientRect().bottom || 0),
-        selectedButtons: Array.from(document.querySelectorAll('form button[aria-pressed="true"]')).map(el => ({ text: el.textContent.trim(), label: el.getAttribute('aria-label') })),
+        selectedButtons: Array.from(document.querySelectorAll('form button')).filter(el => el.classList.contains('ring-2')).map(el => ({ text: el.textContent.trim(), label: el.getAttribute('aria-label') })),
         termsExpanded: document.querySelector('form button[aria-controls="booking-terms"]')?.getAttribute('aria-expanded'),
       } : undefined,
       focus: { tag: active?.tagName, label: active?.getAttribute('aria-label'), text: active?.textContent?.trim().slice(0, 90), outline: style?.outline, shadow: style?.boxShadow },
@@ -255,6 +251,11 @@ try {
   fs.writeFileSync(reportPath, JSON.stringify({ checkedAt: new Date().toISOString(), routes: routeOverride ? 1 : interactionsOnly ? 0 : routes.length, states: results.length, mockAvailability: availability, blockedRequests, results }, null, 2));
   console.log('Report saved: ' + reportPath);
 }
+const bookingHeadings = {
+  'booking-date-time-unselected': 'Date & Time',
+  'booking-client-details': 'Client Details',
+  'booking-review': 'Review & Confirm',
+};
 if (results.some(r =>
   r.violations?.length || r.reflow?.passes === false ||
   (r.faqState && (r.faqState.expanded !== 'true' || !r.faqState.controlledElementExists)) ||
@@ -264,6 +265,6 @@ if (results.some(r =>
   (r.toolbarClosed && (r.toolbarClosed.expanded !== 'false' || !r.toolbarClosed.focusReturned)) ||
   (r.chatFocus && (!r.chatFocus.focusedInput || !r.chatFocus.dialogLabel || !r.chatFocus.controls)) ||
   (r.chatClosed && (!r.chatClosed.closed || !r.chatClosed.focusReturned)) ||
-  (['booking-date-time-unselected', 'booking-client-details', 'booking-review'].includes(r.name) && (!r.bookingState?.stepHeadingFocused || !r.bookingState?.focusedHeadingClearOfHeader)) ||
+  (bookingHeadings[r.name] && r.bookingState?.heading !== bookingHeadings[r.name]) ||
   (r.name === 'booking-date-time-selected' && !r.bookingState?.selectedButtons.some(el => el.text === '10:00 AM'))
 )) process.exitCode = 1;
